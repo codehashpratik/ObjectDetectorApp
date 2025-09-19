@@ -1,4 +1,4 @@
-package com.camera
+package com.mycamera
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.annotations.ReactModule
@@ -6,15 +6,15 @@ import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewManagerDelegate
 import com.facebook.react.uimanager.annotations.ReactProp
-import com.facebook.react.viewmanagers.CustomCameraManagerDelegate
-import com.facebook.react.viewmanagers.CustomCameraManagerInterface
+import com.facebook.react.viewmanagers.CustomMyCameraManagerDelegate
+import com.facebook.react.viewmanagers.CustomMyCameraManagerInterface
 
-@ReactModule(name = ReactCameraManager.REACT_CLASS)
-class ReactCameraManager(context: ReactApplicationContext) : SimpleViewManager<ReactMyCamera>(),
-  CustomCameraManagerInterface<ReactMyCamera> {
+@ReactModule(name = ReactMyCameraManager.REACT_CLASS)
+class ReactMyCameraManager(context: ReactApplicationContext) : SimpleViewManager<ReactMyCamera>(),
+  CustomMyCameraManagerInterface<ReactMyCamera> {
 
-  private val delegate: CustomCameraManagerDelegate<ReactMyCamera, ReactCameraManager> =
-    CustomCameraManagerDelegate(this)
+  private val delegate: CustomMyCameraManagerDelegate<ReactMyCamera, ReactMyCameraManager> =
+    CustomMyCameraManagerDelegate(this)
 
   override fun getDelegate(): ViewManagerDelegate<ReactMyCamera> = delegate
 

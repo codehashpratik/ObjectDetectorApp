@@ -69,8 +69,8 @@ class ReactMyCamera(context:ThemedReactContext) :ConstraintLayout(context),
         installHierarchyFitter(viewFinder)
         viewFinder.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
         addView(viewFinder)
-        constraintSet.constraintWidth(viewFinder.id, ConstraintSet.MATCH_CONSTRAINT)
-        constraintSet.constraintHeight(viewFinder.id, ConstraintSet.MATCH_CONSTRAINT)
+        constraintSet.constrainWidth(viewFinder.id, ConstraintSet.MATCH_CONSTRAINT)
+        constraintSet.constrainHeight(viewFinder.id, ConstraintSet.MATCH_CONSTRAINT)
         constraintSet.connect(
             viewFinder.id,
             ConstraintSet.LEFT,
@@ -98,8 +98,8 @@ class ReactMyCamera(context:ThemedReactContext) :ConstraintLayout(context),
 
         overlayView.id = View.generateViewId()
         addView(overlayView)
-        constraintSet.constraintWidth(overlayView.id,ConstraintLayout.MATCH_CONSTRAINT)
-        constraintSet.constraintHeight(overlayView.id,ConstraintLayout.MATCH_CONSTRAINT)
+        constraintSet.constrainWidth(overlayView.id, ConstraintSet.MATCH_CONSTRAINT)
+        constraintSet.constrainHeight(overlayView.id, ConstraintSet.MATCH_CONSTRAINT)
         constraintSet.connect(
             overlayView.id,
             ConstraintSet.LEFT,
@@ -201,17 +201,19 @@ class ReactMyCamera(context:ThemedReactContext) :ConstraintLayout(context),
         
 
         imageAnalyzer = ImageAnalysis.Builder()
-        .setResolutionSelector(resolutionSelector)
-        .setTargetRotation(viewFinder.display.rotation)
-        .setBackPressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-        .setOutputImageFormat(OUTPUT_IMAGE_FORMAT_RGBA_8888)
-        .build()
-        .also{
-            it.setAnalyzer(
-                backgroundExecutor,
-                objectDetectorHelper::detectLivestreamFrame
-            )
-        }
+    .setResolutionSelector(resolutionSelector)
+    .setTargetRotation(viewFinder.display.rotation)
+    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+    .setOutputImageFormat(OUTPUT_IMAGE_FORMAT_RGBA_8888)
+    .build()
+    .also {
+        it.setAnalyzer(
+            backgroundExecutor,
+            ImageAnalysis.Analyzer { imageProxy ->
+                objectDetectorHelper.detectLivestreamFrame(imageProxy)
+            }
+        )
+    }
 
         cameraProvider.unbindAll()
 
@@ -247,7 +249,7 @@ class ReactMyCamera(context:ThemedReactContext) :ConstraintLayout(context),
     override fun onHostResume(){
         backgroundExecutor.execute{
             if(objectDetectorHelper.isClosed()){
-                objectDetectorHelper.setObjectDetector()
+                objectDetectorHelper.setupObjectDetector()
             }
         }
     }

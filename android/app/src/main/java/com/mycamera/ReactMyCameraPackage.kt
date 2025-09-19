@@ -7,7 +7,7 @@ import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
 
-class ReactMyCameraPackage : BaseReactPackage() {
+class ReactMyCameraPackage  : BaseReactPackage() {
 
   override fun createViewManagers(
     reactContext: ReactApplicationContext
