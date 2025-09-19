@@ -9,6 +9,21 @@
     "start": "react-native start",
     "test": "jest"
   },
+  "codegenConfig":{
+    "name":"AppSpec",
+    "type":"components",
+    "jsSrcsDir" : "specs",
+    "android":{
+      "javaPackageName" :"com.mycamera"
+    },
+    "ios":{
+      "componentProvider":{
+        "CustomMyCamera":"RCTMyCamera"
+      }
+    }
+    
+
+  },
   "dependencies": {
     "react": "19.1.0",
     "react-native": "0.81.4",
